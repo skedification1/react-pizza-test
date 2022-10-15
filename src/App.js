@@ -8,6 +8,7 @@ import {
   useParams,
   Routes,
 } from 'react-router-dom';
+
 //import pizzas from './assets/pizzas.json';
 import './scss/app.scss';
 import Header from './components/Header';
@@ -19,11 +20,12 @@ export const SearchContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
+  //const count = useSelector((state) => state.counter.value);
+  //const dispatch = useDispatch();
 
   return (
     <div className="wrapper">
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-        {/* <Header searchValue={searchValue} setSearchValue={setSearchValue} /> */}
         <Header />
         <div className="content">
           <Routes>

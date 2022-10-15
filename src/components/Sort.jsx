@@ -1,27 +1,50 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSort } from '../redux/slices/filterSlice';
 
-function Sort({ value, onChangeSort }) {
+export const listSort = [
+  { name: 'популярности более', sortProperty: 'rating' },
+  { name: 'популярности менее', sortProperty: '-rating' },
+  { name: 'цене дорогие', sortProperty: 'price' },
+  { name: 'цене убыв', sortProperty: '-price' },
+  { name: 'алфавиту с конца', sortProperty: 'title' },
+  { name: 'алфавиту с нач', sortProperty: '-title' },
+];
+// function Sort({ value, onChangeSort }) {
+function Sort() {
+  const dispatch = useDispatch();
+  const sort = useSelector((state) => state.filter.sort);
+  const sortRef = React.useRef();
+
+  //  console.log(sort, 'fwafwaf');
   // const list = ['популярности', 'цене', 'алфавиту'];
   // const [selected, setSelected] = React.useState(0); // локальный стейт
-  const list = [
-    { name: 'популярности более', sortProperty: 'rating' },
-    { name: 'популярности менее', sortProperty: '-rating' },
-    { name: 'цене дорогие', sortProperty: 'price' },
-    { name: 'цене убыв', sortProperty: '-price' },
-    { name: 'алфавиту с конца', sortProperty: 'title' },
-    { name: 'алфавиту с нач', sortProperty: '-title' },
-  ];
+
   const [open, setOpen] = React.useState(true);
 
   const onClickListeItem = (i) => {
     // setSelected(i); // локальный стейт
-
-    onChangeSort(i);
+    //  onChangeSort(i);
+    dispatch(setSort(i));
     setOpen(false);
   };
+  //console.log(sortRef, 'RRREEFF');
+  React.useEffect(() => {
+    //sortRef;
+    const handleClickOunside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        //  console.log('click ounside');
+        setOpen(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOunside);
+    return () => {
+      document.body.removeEventListener('click', handleClickOunside);
+    };
+  }, []);
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -38,17 +61,17 @@ function Sort({ value, onChangeSort }) {
         {
           // list[selected на value]
         }
-        <span onClick={() => setOpen(!open)}>{value.name}</span>
+        <span onClick={() => setOpen(!open)}>{sort.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
           <ul>
-            {list.map((obj, i) => (
+            {listSort.map((obj, i) => (
               <li
                 key={i}
                 onClick={() => onClickListeItem(obj)} // тут вытаскиваем из локального стейта
                 // ниже мы меняем selected на props value
-                className={value.sortProperty == obj.sortProperty ? 'active' : ''}>
+                className={sort.sortProperty == obj.sortProperty ? 'active' : ''}>
                 {obj.name}
               </li>
             ))}

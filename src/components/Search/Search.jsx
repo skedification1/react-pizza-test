@@ -1,10 +1,46 @@
 import React from 'react';
 import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
+import debounce from 'lodash.debounce'; // отложенная загрузка из лоудэш
 
 //const Search = ({ searchValue, setSearchValue }) => {
+
 const Search = () => {
+  const [value, setValue] = React.useState(''); // локальный для отображения данных быстрых
+
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const onClickClear = () => {
+    setSearchValue(''); // очистка в контексте
+    setValue(''); // локальная очистка
+    inputRef.current.focus();
+  };
+
+  // console.log(inputRef, 'REFFFFF');
+  // React.useEffect(() => {
+  //   console.log(document.querySelector('input'), 'SEARCH');
+  // }, []);
+  //
+  //
+  //
+  //
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSearchValue(str); // туту запрос на сервак
+      console.log('HELLOW');
+    }, 1000),
+    [],
+  );
+  //
+  //
+  //
+  //
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
+
   return (
     <div className={styles.root}>
       <svg className={styles.icon} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -14,14 +50,18 @@ const Search = () => {
         </g>
       </svg>
       <input
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
+        ref={inputRef}
+        // value={searchValue}
+        // onChange={(event) => setSearchValue(event.target.value)}
+        value={value}
+        onChange={onChangeInput}
         className={styles.input}
         placeholder="Поиск Пиццы..."
       />
-      {searchValue && (
+      {/* {searchValue && ( */}
+      {value && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClickClear}
           className={styles.clearIcon}
           viewBox="0 0 48 48"
           width="48"

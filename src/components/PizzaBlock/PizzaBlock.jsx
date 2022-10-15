@@ -1,11 +1,29 @@
 import React from 'react';
 import Categories from '../Categories';
 //import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../redux/slices/cartSlice';
 
-function PizzaBlock({ title, price, imageUrl, sizes, types }) {
-  const typeNames = ['тонкое', 'традиционное'];
+const typeNames = ['тонкое', 'традиционное'];
+
+function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+  const dispatch = useDispatch();
+
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setactiveSize] = React.useState(0);
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
+    console.log('DISPATCHHH');
+  };
   /*
   // тут мы ловим пропсы на вход пиццы данные и кликаем на кнопку
   const [pizzaCount, setPizzaCount] = React.useState(0);
@@ -13,7 +31,14 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
     setPizzaCount(pizzaCount + 1);
   };
 */
-
+  const lolg = () => {
+    console.log(id);
+    console.log(title);
+    console.log(price);
+    console.log(imageUrl);
+    console.log(activeType);
+    console.log(activeSize);
+  };
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
@@ -48,7 +73,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <button o className="button button--outline button--add">
+          <button onClick={onClickAdd} className="button button--outline button--add">
             <svg
               width="12"
               height="12"
