@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 //это параметры первого рендера лолкек
 const initialState = {
+  searchValue: '',
   categoryId: 0,
   currentPage: 1,
   sort: {
@@ -15,6 +16,9 @@ const filterSlice = createSlice({
   initialState,
 
   reducers: {
+    setSearchValue(state, action) {
+      state.searchValue = action.payload;
+    },
     setCatId(state, action) {
       // console.log('action setCategoryId________________________', action);
       state.categoryId = action.payload;
@@ -29,10 +33,11 @@ const filterSlice = createSlice({
       state.currentPage = Number(action.payload.currentPage);
       state.sort = action.payload.sort;
       state.categoryId = Number(action.payload.categoryId);
-      console.log('FILTERSLICE___CATID_____', state.categoryId);
+      //   console.log('FILTERSLICE___CATID_____', state.categoryId);
     },
   },
 });
 
-export const { setCatId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
+export const { setCatId, setSort, setCurrentPage, setFilters, setSearchValue } =
+  filterSlice.actions;
 export default filterSlice.reducer;

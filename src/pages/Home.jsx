@@ -13,6 +13,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
 import { SearchContext } from '../App';
 import { listSort } from '../components/Sort';
+import { setItemsPizza, fetchPizzas } from '../redux/slices/pizzaSlice.js'; // хз!!!
 
 //import Search from '../components/Search/Search';
 const Home = () => {
@@ -26,13 +27,17 @@ const Home = () => {
   const sortType = useSelector((state) => state.filter.sort);
   const currentPage = useSelector((state) => state.filter.currentPage);
   const sortProperty1 = useSelector((state) => state.filter.sort.sortProperty);
+  const status = useSelector((state) => state.pizza.status);
+  const searchValue = useSelector((state) => state.filter.searchValue);
+  console.log(status, ' STATUS');
+
+  const items = useSelector((state) => state.pizza.items);
   //создаем переменную в которую пишем юзселектор - туда передаем стейт а от туда тянем переменную
-  // console.log('category ID', catrgoryId);
 
-  const { searchValue } = React.useContext(SearchContext);
+  //const { searchValue } = React.useContext(SearchContext); // замена на редакс выше
 
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  /* {const [items, setItems] = React.useState([]);} */
+
   //const [catrgoryId, setCategoryId] = React.useState(0);
   // const [currentPage, setCurrentPage] = React.useState(1);
   // const [sortType, setSortType] = React.useState({
@@ -51,45 +56,63 @@ const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const search = searchValue ? `&search=${searchValue}` : '';
-    // fetch(
-    //   `https://63427c853f83935a7843d23c.mockapi.io/items?page=${currentPage}&limit=4${
+
+    /* {
+      await axios
+        .get(
+          `https://-63427c853f83935a7843d23c.mockapi.io/items?page=${currentPage}&limit=4${
+            catrgoryId > 0 ? `&category=${catrgoryId}` : ''
+          }&sortBy=${sortType.sortProperty.replace('-', '')}&order=${
+            sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+          }${search}`,
+        )
+        .then((response) => {
+          // console.log(response, 'RESPONSEE');
+          // return response.json(); // в axios не нужен
+          setItems(response.data);
+          setIsLoading(false);
+          console.log(6666);
+        })
+        .catch((err) => {
+          console.log(err.code, 'Axios Error');
+          setIsLoading(false);
+        });
+    }*/
+
+    // const res = await axios.get(
+    // const { data } = await axios.get(
+    //   `https:///63427c853f83935a7843d23c.mockapi.io/items?page=${currentPage}&limit=4${
     //     catrgoryId > 0 ? `&category=${catrgoryId}` : ''
     //   }&sortBy=${sortType.sortProperty.replace('-', '')}&order=${
     //     sortType.sortProperty.includes('-') ? 'asc' : 'desc'
     //   }${search}`,
-    // )
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((arr) => {
-    //     setItems(arr); // тут мы прокидываем из бека данные в юзстейт и дальше рендерим
-    //     setIsLoading(false);
-    //   });
-    axios
-      .get(
-        `https://63427c853f83935a7843d23c.mockapi.io/items?page=${currentPage}&limit=4${
-          catrgoryId > 0 ? `&category=${catrgoryId}` : ''
-        }&sortBy=${sortType.sortProperty.replace('-', '')}&order=${
-          sortType.sortProperty.includes('-') ? 'asc' : 'desc'
-        }${search}`,
-      )
-      .then((response) => {
-        // console.log(response, 'RESPONSEE');
-        // return response.json(); // в axios не нужен
-        setItems(response.data);
-        setIsLoading(false);
-      });
+    // );
+    dispatch(
+      fetchPizzas({
+        sortType,
+        search,
+        catrgoryId,
+        currentPage,
+      }),
+    );
+
+    // console.log(data, 'DATA');
+    //  dispatch(setItemsPizza(data));
+
+    /*finally {
+      setIsLoading(false); // исполнится при любом варианте
+    } */
+
+    window.scrollTo(0, 0);
   };
 
   React.useEffect(() => {
     const catArr = [0, 1, 2, 3, 4, 5];
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      console.log(params.catrgoryId, 'SORT PROPRTY_PARAMS');
+      //  console.log(params.catrgoryId, 'SORT PROPRTY_PARAMS');
       const sort = listSort.find((obj) => obj.sortProperty === params.sortProperty);
       const categoryId = catArr.find((obj) => obj == params.catrgoryId);
       //const catsId = (obj) => {params.catrgoryId};
@@ -100,16 +123,16 @@ const Home = () => {
           categoryId,
         }),
 
-        console.log('PAARAMMS_1 + ', params.catrgoryId),
-        console.log('PAARAMMS_2 + ', categoryId),
+        //   console.log('PAARAMMS_1 + ', params.catrgoryId),
+        // console.log('PAARAMMS_2 + ', categoryId),
       );
-      console.log('ебнул фолс ONE1', isSearch);
+      //     console.log('ебнул фолс ONE1', isSearch);
       //isSearch.current = !isSearch;
       isSearch.current = true;
-      console.log('ебнул фолс ONE2', isSearch);
+      //  console.log('ебнул фолс ONE2', isSearch);
     }
   }, []);
-  //catrgoryId, currentPage
+
   // [ ] означает только при первом рендере пустые
 
   //дальше парсинг
@@ -117,11 +140,11 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     if (isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
-    console.log('ебнул фолс TWO1', isSearch);
+    // console.log('ебнул фолс TWO1', isSearch);
     isSearch.current = true;
-    console.log('ебнул фолс TWO2', isSearch);
+    // console.log('ебнул фолс TWO2', isSearch);
   }, [catrgoryId, sortType.sortProperty, searchValue, currentPage]); // сюда зависимость для юзэффекта передаем
   // console.log(catrgoryId, sortType, searchValue, 'PROOOPRS HOME');
 
@@ -160,7 +183,15 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzasObj1}</div>
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2> Произошла ошибка 😕</h2>
+          <p>К сожалению, не удалось загрузить пиццу. Повторите попытку позже</p>
+        </div>
+      ) : (
+        <div className="content__items">{status === 'loading' ? skeletons : pizzasObj1}</div>
+      )}
+
       <Pagination
         onChangePage={onChangePage}
         currentPage={currentPage}
