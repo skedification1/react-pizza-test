@@ -1,24 +1,26 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { SearchContext } from '../../App';
+//import { SearchContext } from '../../App';
 import styles from './Search.module.scss';
 import debounce from 'lodash.debounce'; // отложенная загрузка из лоудэш
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
 //const Search = ({ searchValue, setSearchValue }) => {
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(''); // локальный для отображения данных быстрых
 
   //const { searchValue, setSearchValue } = React.useContext(SearchContext); замена редаксом
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
     dispatch(setSearchValue(''));
     // setSearchValue(''); // очистка в контексте // замена редаксом
     setValue(''); // локальная очистка
-    inputRef.current.focus();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   // console.log(inputRef, 'REFFFFF');
@@ -30,7 +32,7 @@ const Search = () => {
   //
   //
   const updateSearchValue = React.useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
       //   setSearchValue(str); // туту запрос на сервак // замена на редакс
       console.log('HELLOW');
@@ -41,7 +43,7 @@ const Search = () => {
   //
   //
   //
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { setCatId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import '../scss/app.scss';
@@ -11,7 +11,7 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
-import { SearchContext } from '../App';
+//import { SearchContext } from '../App';
 import { listSort } from '../components/Sort';
 import { setItemsPizza, fetchPizzas } from '../redux/slices/pizzaSlice.js'; // хз!!!
 
@@ -29,7 +29,7 @@ const Home = () => {
   const sortProperty1 = useSelector((state) => state.filter.sort.sortProperty);
   const status = useSelector((state) => state.pizza.status);
   const searchValue = useSelector((state) => state.filter.searchValue);
-  console.log(status, ' STATUS');
+  // console.log(status, ' STATUS');
 
   const items = useSelector((state) => state.pizza.items);
   //создаем переменную в которую пишем юзселектор - туда передаем стейт а от туда тянем переменную
@@ -170,7 +170,11 @@ const Home = () => {
     navigate(`?${queryString}`);
   }, [catrgoryId, sortType, currentPage]);
   //console.log(sortType.sortProperty)
-  const pizzasObj1 = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzasObj1 = items.map((obj) => (
+    <Link key={obj.id} to={`/pizzas/${obj.id}`}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ));
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   return (

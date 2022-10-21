@@ -3,9 +3,9 @@ import React from 'react';
 import styles from './NotFoundBlock.module.scss';
 //console.log(styles);
 
-const NotFoundBlock = () => {
+const NotFoundBlock: React.FC = () => {
   return (
-    <div>
+    <div className="container">
       <h1 className={styles.root}>
         {' '}
         <span>=(</span>

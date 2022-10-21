@@ -10,8 +10,8 @@ function Header({}) {
   //const { items, totalPrice } = useSelector((state) => state.cart);
   const { items, totalPrice } = useSelector(selectCart);
 
-  const location = useLocation();
-  console.log(location, window.location, ' LOOOCATION');
+  const location = useLocation(); // location.parthname
+  //  console.log(location, window.location, ' LOOOCATION');
   return (
     <div className="header">
       <div className="container">
@@ -26,8 +26,8 @@ function Header({}) {
         </Link>
         {/* <Search searchValue={searchValue} setSearchValue={setSearchValue} /> */}
         <Search />
-        {location.pathname != '/cart' && (
-          <div className="header__cart">
+        <div className="header__cart">
+          {location.pathname != '/cart' && (
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice}₽</span>
               <div className="button__delimiter"></div>
@@ -61,8 +61,8 @@ function Header({}) {
               </svg>
               <span>{items.length}</span>
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

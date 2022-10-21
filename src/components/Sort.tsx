@@ -2,7 +2,12 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../redux/slices/filterSlice';
 
-export const listSort = [
+type sortItem1 = {
+  name: string;
+  sortProperty: string;
+};
+
+export const listSort: sortItem1[] = [
   { name: 'популярности более', sortProperty: 'rating' },
   { name: 'популярности менее', sortProperty: '-rating' },
   { name: 'цене дорогие', sortProperty: 'price' },
@@ -11,10 +16,11 @@ export const listSort = [
   { name: 'алфавиту с нач', sortProperty: '-title' },
 ];
 // function Sort({ value, onChangeSort }) {
+
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
-  const sortRef = React.useRef();
+  const sort = useSelector((state: any) => state.filter.sort);
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   //  console.log(sort, 'fwafwaf');
   // const list = ['популярности', 'цене', 'алфавиту'];
@@ -22,18 +28,17 @@ function Sort() {
 
   const [open, setOpen] = React.useState(true);
 
-  const onClickListeItem = (i) => {
+  const onClickListeItem = (obj: sortItem1) => {
     // setSelected(i); // локальный стейт
     //  onChangeSort(i);
-    dispatch(setSort(i));
+    dispatch(setSort(obj));
     setOpen(false);
   };
   //console.log(sortRef, 'RRREEFF');
   React.useEffect(() => {
     //sortRef;
-    const handleClickOunside = (event) => {
+    const handleClickOunside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
-        //  console.log('click ounside');
         setOpen(false);
       }
     };
