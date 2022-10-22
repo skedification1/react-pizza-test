@@ -17,7 +17,7 @@ export const listSort: sortItem1[] = [
 ];
 // function Sort({ value, onChangeSort }) {
 
-function Sort() {
+const Sort: React.FC = () => {
   const dispatch = useDispatch();
   const sort = useSelector((state: any) => state.filter.sort);
   const sortRef = React.useRef<HTMLDivElement>(null);
@@ -37,8 +37,8 @@ function Sort() {
   //console.log(sortRef, 'RRREEFF');
   React.useEffect(() => {
     //sortRef;
-    const handleClickOunside = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOunside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };
@@ -85,5 +85,5 @@ function Sort() {
       )}
     </div>
   );
-}
+};
 export default Sort;

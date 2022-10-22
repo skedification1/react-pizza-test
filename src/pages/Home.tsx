@@ -16,22 +16,22 @@ import { listSort } from '../components/Sort';
 import { setItemsPizza, fetchPizzas } from '../redux/slices/pizzaSlice.js'; // хз!!!
 
 //import Search from '../components/Search/Search';
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const catrgoryId = useSelector((state) => state.filter.categoryId);
-  const sortType = useSelector((state) => state.filter.sort);
-  const currentPage = useSelector((state) => state.filter.currentPage);
-  const sortProperty1 = useSelector((state) => state.filter.sort.sortProperty);
-  const status = useSelector((state) => state.pizza.status);
-  const searchValue = useSelector((state) => state.filter.searchValue);
+  const catrgoryId = useSelector((state: any) => state.filter.categoryId);
+  const sortType = useSelector((state: any) => state.filter.sort);
+  const currentPage = useSelector((state: any) => state.filter.currentPage);
+  const sortProperty1 = useSelector((state: any) => state.filter.sort.sortProperty);
+  const status = useSelector((state: any) => state.pizza.status);
+  const searchValue = useSelector((state: any) => state.filter.searchValue);
   // console.log(status, ' STATUS');
 
-  const items = useSelector((state) => state.pizza.items);
+  const items = useSelector((state: any) => state.pizza.items);
   //создаем переменную в которую пишем юзселектор - туда передаем стейт а от туда тянем переменную
 
   //const { searchValue } = React.useContext(SearchContext); // замена на редакс выше
@@ -45,14 +45,14 @@ const Home = () => {
   //   sortProperty: 'rating',
   // });
 
-  const onChangeategory = (id) => {
+  const onChangeategory = React.useCallback((id: number) => {
     dispatch(setCatId(id));
-  };
+  }, []);
 
   // const stopRes = useRef(false); //  хук юзреф для фикса бага с двойным запросом
   // [] - зависимость то что внутри изменилось - вызывает функцию снова
 
-  const onChangePage = (number) => {
+  const onChangePage = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
@@ -90,6 +90,7 @@ const Home = () => {
     //   }${search}`,
     // );
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         sortType,
         search,
@@ -114,7 +115,7 @@ const Home = () => {
       const params = qs.parse(window.location.search.substring(1));
       //  console.log(params.catrgoryId, 'SORT PROPRTY_PARAMS');
       const sort = listSort.find((obj) => obj.sortProperty === params.sortProperty);
-      const categoryId = catArr.find((obj) => obj == params.catrgoryId);
+      const categoryId = catArr.find((obj: any) => obj == params.catrgoryId);
       //const catsId = (obj) => {params.catrgoryId};
       dispatch(
         setFilters({
@@ -170,13 +171,13 @@ const Home = () => {
     navigate(`?${queryString}`);
   }, [catrgoryId, sortType, currentPage]);
   //console.log(sortType.sortProperty)
-  const pizzasObj1 = items.map((obj) => (
+  const pizzasObj1 = items.map((obj: any) => (
     <Link key={obj.id} to={`/pizzas/${obj.id}`}>
       <PizzaBlock {...obj} />
     </Link>
   ));
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
-
+  // console.log(onChangeategory, 'Chect onChangeategory');
   return (
     <div className="container">
       <div className="content__top">

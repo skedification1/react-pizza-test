@@ -11,7 +11,20 @@ function Header({}) {
   const { items, totalPrice } = useSelector(selectCart);
 
   const location = useLocation(); // location.parthname
-  //  console.log(location, window.location, ' LOOOCATION');
+  //  console.log(location, window;.location, ' LOOOCATION');
+  const isMounted = React.useRef(false);
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      const json2 = JSON.stringify(totalPrice);
+      console.log(json, ' JSON');
+      console.log(json2, 'PRICE');
+      localStorage.setItem('cart', json);
+      localStorage.setItem('cartPrice', json2);
+    }
+    isMounted.current = true;
+  }, [items]);
+
   return (
     <div className="header">
       <div className="container">
@@ -25,7 +38,7 @@ function Header({}) {
           </div>
         </Link>
         {/* <Search searchValue={searchValue} setSearchValue={setSearchValue} /> */}
-        <Search />
+        {location.pathname != '/cart' && <Search />}
         <div className="header__cart">
           {location.pathname != '/cart' && (
             <Link to="/cart" className="button button--cart">

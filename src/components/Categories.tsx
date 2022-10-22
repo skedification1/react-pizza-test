@@ -1,17 +1,16 @@
 import React from 'react';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 type CategoriesProps1 = {
   value: number;
-  onChangeategory: any;
+  onChangeategory: (idx: number) => void;
 };
-
-const Categories: React.FC<CategoriesProps1> = ({ value, onChangeategory }) =>
+const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+const Categories: React.FC<CategoriesProps1> = React.memo(({ value, onChangeategory }) =>
   //function Categories()
   {
     // const [activeIndex, setActiveIndex] = React.useState(0); // локальный стейт
-
-    const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
-
+    //  useWhyDidYouUpdate('Categories', { value, onChangeategory });
     return (
       <div className="categories">
         <ul>
@@ -28,6 +27,7 @@ const Categories: React.FC<CategoriesProps1> = ({ value, onChangeategory }) =>
         </ul>
       </div>
     );
-  };
+  },
+);
 
 export default Categories;

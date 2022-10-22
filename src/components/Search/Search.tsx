@@ -14,7 +14,7 @@ const Search: React.FC = () => {
   //const { searchValue, setSearchValue } = React.useContext(SearchContext); замена редаксом
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const onClickClear = () => {
+  const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
     dispatch(setSearchValue(''));
     // setSearchValue(''); // очистка в контексте // замена редаксом
     setValue(''); // локальная очистка
@@ -35,7 +35,7 @@ const Search: React.FC = () => {
     debounce((str: string) => {
       dispatch(setSearchValue(str));
       //   setSearchValue(str); // туту запрос на сервак // замена на редакс
-      console.log('HELLOW');
+      // console.log('HELLOW');
     }, 1000),
     [],
   );
@@ -43,7 +43,8 @@ const Search: React.FC = () => {
   //
   //
   //
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //  console.log(event, 'EVEEENT');
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
