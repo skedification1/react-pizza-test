@@ -1,0 +1,35 @@
+[33mcommit 1dd62e73539ac19a5d6f405d551243280deedee7[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Sat Oct 22 18:16:57 2022 +0300
+
+    useMemo
+
+[33mcommit 1bc0e86ea1d53d2ea6fea2ed81f90188f73f8e48[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Fri Oct 21 15:40:38 2022 +0300
+
+    type script / first time
+
+[33mcommit 5bdd10541e57f747feed615557882dcfcacdfa7d[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Thu Oct 20 14:12:44 2022 +0300
+
+    useSelector, useLocation, dispatch
+
+[33mcommit da23902ebb2ee1b85997c8670e83296758acde9d[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Sat Oct 15 21:26:47 2022 +0300
+
+    nice day2
+
+[33mcommit 66959e4d4dacc4fbdc5196383dedd4666a6fb2de[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Wed Oct 12 13:58:22 2022 +0300
+
+    only useContext
+
+[33mcommit 4fea0315d5eaabc6b4f05112a5f12b1f174bc401[m
+Author: skedification1 <dryxlo@mail.ru>
+Date:   Tue Oct 4 20:11:02 2022 +0300
+
+    Initialize project using Create React App
